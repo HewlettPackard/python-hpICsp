@@ -58,7 +58,7 @@ class jobs(object):
             body = self._con.get(hpICsp.common.uri['job'])
         return body
 		
-    def add_job(self, body, runTime = None, jobName= None):
+    def add_job(self, body, runTime = None, jobName= None, force= False):
         if (runTime):
             if (jobName):
                 body = self._con.post(hpICsp.common.uri['job'] + '?time=%s&title=%s' % (runTime,jobName), body)
@@ -67,7 +67,10 @@ class jobs(object):
         elif (jobName):
             body = self._con.post(hpICsp.common.uri['job'] + '?title=%s' % (jobName), body)
         else:
-            body = self._con.post(hpICsp.common.uri['job'], body)
+            force_args=''
+            if force:
+                force_args = '?force=true'
+            body = self._con.post(hpICsp.common.uri['job'] + force_args , body)
         return body
 
     def stop_job(self, URI):
