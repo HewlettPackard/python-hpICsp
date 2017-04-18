@@ -1,25 +1,6 @@
 #!/usr/bin/env python3
-"""
-HP ICsp Library
-~~~~~~~~~~~~~~~~~~~~~
-
-"""
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
-__title__ = 'hpICsp'
-__version__ = '1.0.0'
-__copyright__ = '(C) Copyright 2014 Hewlett-Packard Development ' \
-                ' Company, L.P.'
-__license__ = 'MIT'
-__status__ = 'Development'
-
 ###
-# (C) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (C) Copyright (2014-2017) Hewlett-Packard Development Company, L.P.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,11 +15,32 @@ __status__ = 'Development'
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS be LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 ###
+
+"""
+HP ICsp Library
+~~~~~~~~~~~~~~~~~~~~~
+
+"""
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+
+standard_library.install_aliases()
+
+__title__ = 'hpICsp'
+__version__ = '1.0.0'
+__copyright__ = '(C) Copyright (2014-2017) Hewlett-Packard Development ' \
+                ' Company, L.P.'
+__license__ = 'MIT'
+__status__ = 'Development'
+
 
 import sys
 
@@ -49,7 +51,6 @@ if PY2:
         raise Exception('Must use Python 2.7.9 or later')
     elif PYTHON_VERSION < (3, 4):
         raise Exception('Must use Python 3.4 or later')
-
 
 from hpICsp.common import *
 from hpICsp.exceptions import *
@@ -77,7 +78,7 @@ def main():
                         help='HP ICsp Password')
     parser.add_argument('-c', '--certificate', dest='cert', required=False,
                         help='Trusted SSL Certificate Bundle in PEM '
-                        '(Base64 Encoded DER) Format')
+                             '(Base64 Encoded DER) Format')
     parser.add_argument('-r', '--proxy', dest='proxy', required=False,
                         help='Proxy (host:port format')
     args = parser.parse_args()
@@ -90,9 +91,11 @@ def main():
     con.login(credential)
     con.logout()
 
+
 if __name__ == '__main__':
     import sys
     import argparse
+
     sys.exit(main())
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

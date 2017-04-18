@@ -1,27 +1,6 @@
 # -*- coding: utf-8 -*
-
-"""
-connection.py
-~~~~~~~~~~~~
-
-This module maintains communication with the appliance
-"""
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
-__title__ = 'connection'
-__version__ = '1.0.0'
-__copyright__ = '(C) Copyright 2014 Hewlett-Packard Development ' \
-                ' Company, L.P.'
-__license__ = 'MIT'
-__status__ = 'Development'
-
 ###
-# (C) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (C) Copyright (2014-2017) Hewlett-Packard Development Company, L.P.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +21,20 @@ __status__ = 'Development'
 # THE SOFTWARE.
 ###
 
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+
+standard_library.install_aliases()
+
+__title__ = 'connection'
+__version__ = '1.0.0'
+__copyright__ = '(C) Copyright (2014-2017) Hewlett-Packard Development ' \
+                ' Company, L.P.'
+__license__ = 'MIT'
+__status__ = 'Development'
 
 import shutil
 import mmap
@@ -51,12 +44,16 @@ import json
 import sys
 from hpICsp import connectionHPOneView
 
+
 class connection(connectionHPOneView):
+    """
+    This module maintains communication with the appliance
+    """
 
     def __init__(self, applianceIp, api_version=102):
         super(connection, self).__init__(applianceIp, api_version)
 
-    def encode_multipart_formdata(self, fileName,extension):
+    def encode_multipart_formdata(self, fileName, extension):
         BOUNDARY = '----------ThIs_Is_tHe_bouNdaRY_$'
         CRLF = '\r\n'
         content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
@@ -77,14 +74,14 @@ class connection(connectionHPOneView):
         fin.close()
         return content_type
 
-    def post_multipart(self, path, fileName,extension,verbose,deleteAfterUpload):
-        content_type = self.encode_multipart_formdata(fileName,extension)
-        inputfile = open(fileName + extension,'rb')
-        mappedfile = mmap.mmap(inputfile.fileno(),0,access=mmap.ACCESS_READ)
+    def post_multipart(self, path, fileName, extension, verbose, deleteAfterUpload):
+        content_type = self.encode_multipart_formdata(fileName, extension)
+        inputfile = open(fileName + extension, 'rb')
+        mappedfile = mmap.mmap(inputfile.fileno(), 0, access=mmap.ACCESS_READ)
         conn = http.client.HTTPSConnection(self._host)
         conn.connect()
         conn.putrequest('POST', path)
-        conn.putheader('uploadfilename',fileName)
+        conn.putheader('uploadfilename', fileName)
         conn.putheader('auth', self._headers['auth'])
         conn.putheader('Content-Type', content_type)
         totalSize = os.path.getsize(fileName + extension)
@@ -97,13 +94,13 @@ class connection(connectionHPOneView):
             # is stored in RAM
             readSize = 1048576
             conn.send(mappedfile.read(readSize))
-            if verbose is True:  			
+            if verbose is True:
                 sys.stdout.write('%d bytes sent... \r' % mappedfile.tell())
-                sys.stdout.flush()			
+                sys.stdout.flush()
         mappedfile.close()
         inputfile.close()
         os.remove(fileName + extension)
-        if (deleteAfterUpload == True):
+        if deleteAfterUpload:
             os.remove(fileName)
         response = conn.getresponse()
         body = response.read().decode('utf-8')
@@ -114,5 +111,3 @@ class connection(connectionHPOneView):
                 body = response.read().decode('utf-8')
         conn.close()
         return body
-       	
-# vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

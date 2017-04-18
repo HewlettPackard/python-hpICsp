@@ -1,27 +1,6 @@
 # -*- coding: utf-8 -*
-
-"""
-connection.py
-~~~~~~~~~~~~
-
-This module maintains communication with the appliance
-"""
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
-__title__ = 'connection'
-__version__ = '1.0.0'
-__copyright__ = '(C) Copyright 2014 Hewlett-Packard Development ' \
-                ' Company, L.P.'
-__license__ = 'MIT'
-__status__ = 'Development'
-
 ###
-# (C) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (C) Copyright (2014-2017) Hewlett-Packard Development Company, L.P.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -42,17 +21,36 @@ __status__ = 'Development'
 # THE SOFTWARE.
 ###
 
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+
+standard_library.install_aliases()
+
+__title__ = 'connection'
+__version__ = '1.0.0'
+__copyright__ = '(C) Copyright (2014-2017) Hewlett-Packard Development ' \
+                ' Company, L.P.'
+__license__ = 'MIT'
+__status__ = 'Development'
+
 import http.client
 import json
 import shutil  # for shutil.copyfileobj()
 import mmap  # so we can upload the iso without having to load it in memory
 import os
-
-from hpICsp.common import *
-from hpICsp.exceptions import *
+import sys
+import time
+from hpICsp.common import get_members, get_member, make_eula_dict, make_initial_password_change_dict
+from hpICsp.exceptions import HPICspException
 
 
 class connectionHPOneView(object):
+    """
+    This module maintains communication with the appliance
+    """
 
     def __init__(self, applianceIp, api_version=102):
         self._session = None
@@ -199,7 +197,7 @@ class connectionHPOneView(object):
         else:
             conn = http.client.HTTPSConnection(self._proxyHost, self._proxyPort)
             conn.set_tunnel(self._host, 443)
-        #conn.set_debuglevel(1)
+        # conn.set_debuglevel(1)
         conn.connect()
         conn.putrequest('POST', path)
         conn.putheader('uploadfilename', fileName)
@@ -280,7 +278,7 @@ class connectionHPOneView(object):
     def post(self, uri, body):
         resp, body = self.do_http('POST', uri, json.dumps(body))
         if resp.status >= 400:
-            print(resp.status,body)
+            print(resp.status, body)
             raise HPICspException(body)
         return body
 
@@ -338,7 +336,7 @@ class connectionHPOneView(object):
     ###########################################################################
     def get_eula_status(self):
         global uri
-        return(self.get(uri['eulaStatus']))
+        return (self.get(uri['eulaStatus']))
 
     def set_eula(self, supportAccess='yes'):
         global uri
@@ -351,7 +349,7 @@ class connectionHPOneView(object):
     ###########################################################################
     def get_appliance_network_interfaces(self):
         global uri
-        return(self.get(uri['applianceNetworkInterfaces']))
+        return (self.get(uri['applianceNetworkInterfaces']))
 
     def set_appliance_network_interface(self, interfaceConfig):
         global uri
@@ -395,8 +393,7 @@ class connectionHPOneView(object):
 
     def logout(self, verbose=False):
         global uri
-        #resp, body = self.do_http(method, uri['loginSessions'] \
-        #                        , body, self._headers)
+        # resp, body = self.do_http(method, uri['loginSessions'], body, self._headers)
         try:
             self.delete(uri['loginSessions'])
         except HPICspException:
