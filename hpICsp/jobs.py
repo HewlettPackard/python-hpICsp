@@ -1,34 +1,13 @@
- # -*- coding: utf-8 -*-
-
-"""
-jobs.py
-~~~~~~~~~~~~
-
-This module implements Jobs HP ICsp REST API
-"""
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
-__title__ = 'jobs'
-__version__ = '1.0.0'
-__copyright__ = '(C) Copyright 2014 Hewlett-Packard Development ' \
-                ' Company, L.P.'
-__license__ = 'MIT'
-__status__ = 'Development'
-
+# -*- coding: utf-8 -*-
 ###
-# (C) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (C) Copyright (2014-2017) Hewlett-Packard Development Company, L.P.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions: 
+# furnished to do so, subject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
@@ -42,54 +21,71 @@ __status__ = 'Development'
 # THE SOFTWARE.
 ###
 
-from hpICsp.exceptions import *
+
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+
+standard_library.install_aliases()
+
+__title__ = 'jobs'
+__version__ = '1.0.0'
+__copyright__ = '(C) Copyright (2014-2017) Hewlett-Packard Development ' \
+                ' Company, L.P.'
+__license__ = 'MIT'
+__status__ = 'Development'
+
 import hpICsp.common
 
 
 class jobs(object):
-
+    """
+    This module implements Jobs HP ICsp REST API
+    """
     def __init__(self, con):
         self._con = con
 
     def get_job(self, URI=None):
-        if (URI):
+        if URI:
             body = self._con.get(URI)
         else:
             body = self._con.get(hpICsp.common.uri['job'])
         return body
-		
-    def add_job(self, body, runTime = None, jobName = None, force = False):
-        if (runTime):
-            if (jobName):
+
+    def add_job(self, body, runTime=None, jobName=None, force=False):
+        if runTime:
+            if jobName:
                 body = self._con.post(hpICsp.common.uri['job'] + '?time=%s&title=%s' % (runTime, jobName), body)
             else:
-                body = self._con.post(hpICsp.common.uri['job'] + '?time=%s' % (runTime), body)			
-        elif (jobName):
+                body = self._con.post(hpICsp.common.uri['job'] + '?time=%s' % (runTime), body)
+        elif jobName:
             body = self._con.post(hpICsp.common.uri['job'] + '?title=%s' % (jobName), body)
         else:
-            force_args=''
+            force_args = ''
             if force:
                 force_args = '?force=true'
-            body = self._con.post(hpICsp.common.uri['job'] + force_args , body)
+            body = self._con.post(hpICsp.common.uri['job'] + force_args, body)
         return body
 
     def stop_job(self, URI):
         jobParse = self._con.get(URI)
-        if (jobParse['name'] != 'Run OS Build Plans'):
-            bpID=jobParse['uriOfJobType'].split('/')[-1]
+        if jobParse['name'] != 'Run OS Build Plans':
+            bpID = jobParse['uriOfJobType'].split('/')[-1]
             if (len(jobParse['jobServerInfo']) == 1):
-                servID=jobParse['jobServerInfo'][0]['jobServerUri'].split('/')[-1]
-                newURI=URI + '/stop?bp=' + bpID + '&server=' + servID
-                body=self._con.put(newURI, None)
+                servID = jobParse['jobServerInfo'][0]['jobServerUri'].split('/')[-1]
+                newURI = URI + '/stop?bp=' + bpID + '&server=' + servID
+                body = self._con.put(newURI, None)
             else:
                 for serv in jobParse['jobServerInfo']:
-                    servID=serv['jobServerUri'].split('/')[-1]
-                    newURI=URI+'/stop?bp='+bpID+'&server='+servID
-                    body=self._con.put(newURI, None)						
+                    servID = serv['jobServerUri'].split('/')[-1]
+                    newURI = URI + '/stop?bp=' + bpID + '&server=' + servID
+                    body = self._con.put(newURI, None)
         else:
-            newURI=URI+'/stop?bp=0&server=0'
-            stopBody={'uri':URI,'bpURI':'/rest/os-deployment-apxs/1770001','serverURI':'/rest/os-deployment-servers/0','serverName':"",'chainedJob':'true','pendingJob':'False'}
-            body=self._con.put(newURI,stopBody)
+            newURI = URI + '/stop?bp=0&server=0'
+            stopBody = {'uri': URI, 'bpURI': '/rest/os-deployment-apxs/1770001',
+                        'serverURI': '/rest/os-deployment-servers/0', 'serverName': "", 'chainedJob': 'true',
+                        'pendingJob': 'False'}
+            body = self._con.put(newURI, stopBody)
         return body
-
-# vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

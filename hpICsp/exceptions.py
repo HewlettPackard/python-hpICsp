@@ -1,27 +1,6 @@
 # -*- coding: utf-8 -*-
-
-"""
-exceptions.py
-~~~~~~~~~~~~
-
-This module implements exceptions HP ICsp REST API
-"""
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
-__title__ = 'exceptions'
-__version__ = '1.0.0'
-__copyright__ = '(C) Copyright 2014 Hewlett-Packard Development ' \
-                ' Company, L.P.'
-__license__ = 'MIT'
-__status__ = 'Development'
-
 ###
-# (C) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (C) Copyright (2014-2017) Hewlett-Packard Development Company, L.P.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -42,9 +21,27 @@ __status__ = 'Development'
 # THE SOFTWARE.
 ###
 
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+
+standard_library.install_aliases()
+
+__title__ = 'exceptions'
+__version__ = '1.0.0'
+__copyright__ = '(C) Copyright (2014-2017) Hewlett-Packard Development ' \
+                ' Company, L.P.'
+__license__ = 'MIT'
+__status__ = 'Development'
+
+"""
+This module implements exceptions HP ICsp REST API
+"""
+
 
 class HPICspException(Exception):
-
     def __init__(self, value):
         if type(value) is dict:
             self.message = value['message']

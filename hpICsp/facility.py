@@ -1,34 +1,13 @@
 # -*- coding: utf-8 -*-
-
-"""
-facility.py
-~~~~~~~~~~~~
-
-This module implements Facility HP ICsp REST API
-"""
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
-__title__ = 'facility'
-__version__ = '1.0.0'
-__copyright__ = '(C) Copyright 2014 Hewlett-Packard Development ' \
-                ' Company, L.P.'
-__license__ = 'MIT'
-__status__ = 'Development'
-
 ###
-# (C) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (C) Copyright (2014-2017) Hewlett-Packard Development Company, L.P.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions: 
+# furnished to do so, subject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
@@ -42,11 +21,28 @@ __status__ = 'Development'
 # THE SOFTWARE.
 ###
 
-from hpICsp.exceptions import *
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+
+standard_library.install_aliases()
+
+__title__ = 'facility'
+__version__ = '1.0.0'
+__copyright__ = '(C) Copyright (2014-2017) Hewlett-Packard Development ' \
+                ' Company, L.P.'
+__license__ = 'MIT'
+__status__ = 'Development'
+
 import hpICsp.common
 
 
 class facility(object):
+    """
+    This module implements Facility HP ICsp REST API
+    """
 
     def __init__(self, con):
         self._con = con
@@ -59,7 +55,7 @@ class facility(object):
         return body
 
     def update_facility(self, body):
-        facilityID=body['uri'].split('/')[-1]	
+        facilityID = body['uri'].split('/')[-1]
         body = self._con.put(hpICsp.common.uri['facility'] + '/%s' % (facilityID), body)
         return body
 
