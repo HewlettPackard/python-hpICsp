@@ -46,10 +46,13 @@ import sys
 
 PYTHON_VERSION = sys.version_info[:3]
 PY2 = (PYTHON_VERSION[0] == 2)
+PY3 = (PYTHON_VERSION[0] == 3)
+
 if PY2:
     if PYTHON_VERSION < (2, 7, 9):
         raise Exception('Must use Python 2.7.9 or later')
-    elif PYTHON_VERSION < (3, 4):
+elif PY3:
+    if PYTHON_VERSION < (3, 4):
         raise Exception('Must use Python 3.4 or later')
 
 from hpICsp.common import *
