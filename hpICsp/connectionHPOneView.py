@@ -73,7 +73,6 @@ class connectionHPOneView(object):
         self._validateVersion()
 
     def _validateVersion(self):
-        global uri
         version = self.get(uri['version'])
         if 'minimumVersion' in version:
             if self._apiVersion < version['minimumVersion']:

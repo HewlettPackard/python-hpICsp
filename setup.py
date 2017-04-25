@@ -24,10 +24,10 @@
 from distutils.core import setup
 
 setup(name='hpICsp',
-      version='1.0.1',
+      version='1.0.2',
       description='HP Insight Control Server Provisioning Python Library',
       url='https://github.com/HewlettPackard/python-hpICsp',
-      download_url="https://github.com/HewlettPackard/python-hpICsp/tarball/v1.0.1",
+      download_url="https://github.com/HewlettPackard/python-hpICsp/tarball/v1.0.2",
       author='Hewlett-Packard Development Company L.P.',
       author_email='oneview-pythonsdk@hpe.com',
       license='MIT',

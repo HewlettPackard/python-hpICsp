@@ -1,7 +1,7 @@
 hpICsp
 =========
 
-This library provides a pure Python interface to the HP Insight Control server provisioning RESTful API. 
+This library provides a pure Python interface to the HPE Insight Control server provisioning RESTful API. 
 
 Installation
 ------------
@@ -23,10 +23,10 @@ $ cd python-hpICsp
 $ pip install .
 ```
 
-Both installation methods work if you are using virtualenv, which you should be!
-
 ### From Pypi
 
 ```bash
 $ pip install hpICsp
 ```
+
+Both installation methods work if you are using virtualenv, which you should be!
