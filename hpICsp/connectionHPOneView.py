@@ -43,7 +43,7 @@ import mmap  # so we can upload the iso without having to load it in memory
 import os
 import sys
 import time
-from hpICsp.common import get_members, get_member, make_eula_dict, make_initial_password_change_dict
+from hpICsp.common import uri, get_members, get_member, make_eula_dict, make_initial_password_change_dict
 from hpICsp.exceptions import HPICspException
 
 
