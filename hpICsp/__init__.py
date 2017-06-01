@@ -43,6 +43,7 @@ __status__ = 'Development'
 
 
 import sys
+import warnings
 
 PYTHON_VERSION = sys.version_info[:3]
 PY2 = (PYTHON_VERSION[0] == 2)
@@ -50,10 +51,14 @@ PY3 = (PYTHON_VERSION[0] == 3)
 
 if PY2:
     if PYTHON_VERSION < (2, 7, 9):
-        raise Exception('Must use Python 2.7.9 or later')
+        warning_message = 'Running unsupported Python version: %s, unexpected errors might occur.'
+        warning_message += ' Use of Python v2.7.9+ is advised.'
+        warnings.warn(warning_message % '.'.join(map(str, PYTHON_VERSION)), Warning)
 elif PY3:
     if PYTHON_VERSION < (3, 4):
-        raise Exception('Must use Python 3.4 or later')
+        warning_message = 'Running unsupported Python version> %s, unexpected errors might occur.'
+        warning_message += ' Use of Python v3.4+ is advised.'
+        warnings.warn(warning_message % '.'.join(map(str, PYTHON_VERSION)), Warning)
 
 from hpICsp.common import *
 from hpICsp.exceptions import *
